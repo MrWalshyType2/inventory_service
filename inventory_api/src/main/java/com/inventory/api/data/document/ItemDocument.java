@@ -11,10 +11,14 @@ import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
 import com.inventory.api.data.models.Tag;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Document
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemDocument {
 
 	@MongoId
