@@ -1,5 +1,9 @@
 package com.inventory.api.data.models;
 
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.lang.Nullable;
+
 import lombok.Value;
 
 /**
@@ -13,6 +17,9 @@ import lombok.Value;
 @Value
 public class ItemName {
 
+	@Nullable
 	private String name;
+	
+	@NotBlank
 	private String alias;
 }

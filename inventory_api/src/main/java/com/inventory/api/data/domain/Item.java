@@ -8,6 +8,7 @@ import com.inventory.api.data.models.Size;
 import com.inventory.api.data.models.Tag;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -21,6 +22,7 @@ import lombok.Value;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Item {
 
 	private String id;
