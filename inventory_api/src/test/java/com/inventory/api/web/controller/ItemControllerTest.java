@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -89,7 +90,8 @@ public class ItemControllerTest {
 		// then
 		then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		then(response.getContentAsString())
-					 .isEqualTo(jsonItemResultList.write(items).getJson());
+					 .isEqualTo(jsonItemResultList.write(items)
+							 					  .getJson());
 	}
 	
 	@Test
@@ -104,6 +106,35 @@ public class ItemControllerTest {
 		
 		then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		then(response.getContentAsString())
-					 .isEqualTo(jsonItemResult.write(item1).getJson());
+					 .isEqualTo(jsonItemResult.write(item1)
+							 				  .getJson());
+	}
+	
+	@Test
+	void postNewItemTest() throws Exception {
+		// given
+		ItemDTO postableItem = new ItemDTO(null,
+										   item1.getName(),
+										   item1.getDescription(),
+										   item1.getPrice(),
+										   item1.getStock(),
+										   item1.getSize(),
+										   item1.getTags(),
+										   "0j84j3809-tju8340u43");
+		
+		// when
+		MockHttpServletResponse response = mockMvc.perform(
+				post("/api/items")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(jsonItemRequest.write(postableItem)
+											.getJson()))
+					.andReturn()
+						.getResponse();
+		
+		// then
+		then(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
+		then(response.getContentAsString())
+					 .isEqualTo(jsonItemResult.write(item1)
+							 				  .getJson());
 	}
 }
