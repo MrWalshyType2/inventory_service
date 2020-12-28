@@ -1,4 +1,4 @@
-package com.inventory.api.data.document;
+package com.inventory.api.data.domain.document;
 
 import java.util.Set;
 
