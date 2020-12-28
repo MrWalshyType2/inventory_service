@@ -164,20 +164,20 @@ public class ItemController {
 	public ResponseEntity<Item> putUpdateItem(@RequestBody @Valid ItemDTO item) {
 		log.info("Received update to item: " + item.toString());
 		
-		HttpHeaders headers = new HttpHeaders();
-		// mock ID url
-		headers.set("Location", url + port + itemsUrl + "0j84j3809-tju8340u43");
-		
 		Item returnable = Item.builder()
 							  .id("0j84j3809-tju8340u43")
 							  .name(item.getName())
 							  .description(item.getDescription())
-							  .itemCode("0j84j3809-tju8340u43")
+							  .itemCode(item.getItemCode())
 							  .price(item.getPrice())
 							  .size(item.getSize())
 							  .stock(item.getStock())
 							  .tags(item.getTags())
 							  .build();
+		
+		HttpHeaders headers = new HttpHeaders();
+		// mock ID url
+		headers.set("Location", url + port + itemsUrl + returnable.getId());
 		
 		return new ResponseEntity<Item>(returnable, headers, HttpStatus.OK);
 	}

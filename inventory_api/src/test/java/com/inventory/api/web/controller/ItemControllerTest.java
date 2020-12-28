@@ -24,6 +24,7 @@ import com.inventory.api.web.dto.ItemDTO;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -165,5 +166,20 @@ public class ItemControllerTest {
 		then(response.getContentAsString())
 					 .isEqualTo(jsonItemResult.write(item1)
 							 				  .getJson());
+	}
+	
+	@Test
+	void deleteItemByIdTest() throws Exception {
+		// given
+		String id = item1.getId();
+		
+		// when
+		MockHttpServletResponse response = mockMvc.perform(
+				delete("/api/items/" + id))
+					.andReturn()
+						.getResponse();
+		
+		// then
+		then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 	}
 }
