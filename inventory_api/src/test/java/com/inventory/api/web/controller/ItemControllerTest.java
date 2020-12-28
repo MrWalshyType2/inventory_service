@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import java.util.List;
 import java.util.Set;
@@ -133,6 +134,34 @@ public class ItemControllerTest {
 		
 		// then
 		then(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
+		then(response.getContentAsString())
+					 .isEqualTo(jsonItemResult.write(item1)
+							 				  .getJson());
+	}
+	
+	@Test
+	void putUpdateItemTest() throws Exception {
+		// given
+		ItemDTO postableItem = new ItemDTO(null,
+										   item1.getName(),
+										   item1.getDescription(),
+										   item1.getPrice(),
+										   item1.getStock(),
+										   item1.getSize(),
+										   item1.getTags(),
+										   "0j84j3809-tju8340u43");
+		
+		// when
+		MockHttpServletResponse response = mockMvc.perform(
+				put("/api/items")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(jsonItemRequest.write(postableItem)
+											.getJson()))
+					.andReturn()
+						.getResponse();
+		
+		// then
+		then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		then(response.getContentAsString())
 					 .isEqualTo(jsonItemResult.write(item1)
 							 				  .getJson());
