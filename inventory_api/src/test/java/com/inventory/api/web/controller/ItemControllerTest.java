@@ -83,12 +83,27 @@ public class ItemControllerTest {
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
-				get("/api/items/all"))
+				get("/api/items/all/"))
 					.andReturn().getResponse();
 		
 		// then
 		then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		then(response.getContentAsString())
 					 .isEqualTo(jsonItemResultList.write(items).getJson());
+	}
+	
+	@Test
+	void getItemByIdTest() throws Exception {
+		// given
+		String id = item1.getId();
+		
+		// when
+		MockHttpServletResponse response = mockMvc.perform(
+				get("/api/items/" + id))
+					.andReturn().getResponse();
+		
+		then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+		then(response.getContentAsString())
+					 .isEqualTo(jsonItemResult.write(item1).getJson());
 	}
 }
