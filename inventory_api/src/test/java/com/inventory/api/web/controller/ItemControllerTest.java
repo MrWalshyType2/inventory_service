@@ -3,6 +3,7 @@ package com.inventory.api.web.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -106,7 +107,7 @@ public class ItemControllerTest {
 		String id = item1.getId();
 		
 		// given
-		given(itemService.getItemById(id)).willReturn(item1);
+		given(itemService.getItemById(Mockito.any())).willReturn(item1);
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
@@ -121,7 +122,6 @@ public class ItemControllerTest {
 	
 	@Test
 	void postNewItemTest() throws Exception {
-		// given
 		ItemDTO postableItem = new ItemDTO(null,
 										   item1.getName(),
 										   item1.getDescription(),
@@ -130,6 +130,9 @@ public class ItemControllerTest {
 										   item1.getSize(),
 										   item1.getTags(),
 										   "0j84j3809-tju8340u43");
+		
+		// given
+		given(itemService.postNewItem(Mockito.any())).willReturn(item1);
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
