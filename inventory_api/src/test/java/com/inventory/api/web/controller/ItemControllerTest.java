@@ -152,7 +152,6 @@ public class ItemControllerTest {
 	
 	@Test
 	void putUpdateItemTest() throws Exception {
-		// given
 		ItemDTO postableItem = new ItemDTO(null,
 										   item1.getName(),
 										   item1.getDescription(),
@@ -161,6 +160,9 @@ public class ItemControllerTest {
 										   item1.getSize(),
 										   item1.getTags(),
 										   "0j84j3809-tju8340u43");
+		
+		// given
+		given(itemService.putUpdateItem(Mockito.any(), Mockito.any())).willReturn(item1);
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
