@@ -34,6 +34,7 @@ public class ItemDocument {
 	}
 
 	public ItemDocument(Item item) {
+		this.id = item.getId();
 		this.name = item.getName();
 		this.description = item.getDescription();
 		this.price = item.getPrice();
