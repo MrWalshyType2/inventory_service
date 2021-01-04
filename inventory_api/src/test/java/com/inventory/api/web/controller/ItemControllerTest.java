@@ -166,7 +166,7 @@ public class ItemControllerTest {
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
-				put("/api/items")
+				put("/api/items/" + item1.getId())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(jsonItemRequest.write(postableItem)
 											.getJson()))
