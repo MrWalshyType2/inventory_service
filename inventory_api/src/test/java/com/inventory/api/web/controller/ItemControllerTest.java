@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -19,6 +20,7 @@ import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
 import com.inventory.api.data.models.Tag;
+import com.inventory.api.service.ItemService;
 import com.inventory.api.web.dto.ItemDTO;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -39,6 +41,9 @@ public class ItemControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@MockBean
+	private ItemService itemService;
 	
 	@Autowired
 	private JacksonTester<ItemDTO> jsonItemRequest;
