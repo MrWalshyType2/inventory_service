@@ -53,29 +53,7 @@ public class ItemController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Location", url + port + itemsUrl + "all");
 		
-		Item item1 = Item.builder()
-						.id("0j84j3809-tju8340u43")
-						.name(new ItemName("Freddo Chocolate Bar", "Freddo"))
-						.description("A yummy chocolate bar")
-						.price(new Price("00.50", Double.valueOf("00.50")))
-						.itemCode("0j84j3809-tju8340u43")
-						.stock(666)
-						.tags(Set.of(Tag.FOOD))
-						.size(new Size(0.50d, 0.50d, 0.50d))
-						.build();
-		
-		Item item2 = Item.builder()
-				.id("0j84j3810-tjq7340u45")
-				.name(new ItemName("Reddo Fake Bar", "ReddoFake"))
-				.description("A yummy fake bar")
-				.price(new Price("10.20", Double.valueOf("10.20")))
-				.itemCode("0j84j3810-tjq7340u45")
-				.stock(666)
-				.tags(Set.of(Tag.FOOD))
-				.size(new Size(0.56d, 0.46d, 0.56d))
-				.build();
-		
-		return new ResponseEntity<List<Item>>(List.of(item1, item2),
+		return new ResponseEntity<List<Item>>(itemService.getAllItems(),
 											  headers,
 											  HttpStatus.OK);
 	}
