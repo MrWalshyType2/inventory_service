@@ -11,6 +11,7 @@ import com.inventory.api.data.domain.document.ItemDocument;
 import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.repository.ItemRepository;
 import com.inventory.api.service.exception.ItemNotFoundException;
+import com.inventory.api.service.exception.NoItemsFoundException;
 import com.inventory.api.web.dto.ItemDTO;
 
 @Service
@@ -21,6 +22,8 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<Item> getAllItems() {
+		if (itemRepository.count() <= 0) throw new NoItemsFoundException("No items can be found");
+		
 		return itemRepository.findAll()
 							 .stream()
 							 .map(itemDoc -> new Item(itemDoc))
