@@ -87,6 +87,7 @@ public class ItemControllerTest {
 	@Test
 	void getAllItemsTest() throws Exception {
 		// given
+		given(itemService.getAllItems()).willReturn(items);
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
