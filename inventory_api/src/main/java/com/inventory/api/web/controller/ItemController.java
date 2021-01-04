@@ -139,6 +139,6 @@ public class ItemController {
 	public ResponseEntity<String> deleteItemById(@PathVariable("id") String id) {
 		log.info("Deleting item with ID: " + id);
 		
-		return new ResponseEntity<String>("Item deleted successfully", HttpStatus.OK);
+		return new ResponseEntity<String>(itemService.deleteItemById(id), HttpStatus.OK);
 	}
 }
