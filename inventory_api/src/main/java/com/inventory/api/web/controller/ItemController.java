@@ -63,20 +63,9 @@ public class ItemController {
 		log.info("Received item id: " + id);
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Location", url + port + itemsUrl + "0j84j3809-tju8340u43");
+		headers.set("Location", url + port + itemsUrl + id);
 		
-		Item item = Item.builder()
-						.id("0j84j3809-tju8340u43")
-						.name(new ItemName("Freddo Chocolate Bar", "Freddo"))
-						.description("A yummy chocolate bar")
-						.price(new Price("00.50", Double.valueOf("00.50")))
-						.itemCode("0j84j3809-tju8340u43")
-						.stock(666)
-						.tags(Set.of(Tag.FOOD))
-						.size(new Size(0.50d, 0.50d, 0.50d))
-						.build();
-		
-		return new ResponseEntity<Item>(item, headers, HttpStatus.OK);
+		return new ResponseEntity<Item>(itemService.getItemById(id), headers, HttpStatus.OK);
 	}
 
 	@GetMapping
