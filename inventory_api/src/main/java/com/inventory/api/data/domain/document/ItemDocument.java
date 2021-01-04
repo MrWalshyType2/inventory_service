@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import com.inventory.api.data.domain.Item;
 import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
@@ -30,6 +31,16 @@ public class ItemDocument {
 		this.size = itemDTO.getSize();
 		this.tags = itemDTO.getTags();
 		this.itemCode = itemDTO.getItemCode();
+	}
+
+	public ItemDocument(Item item) {
+		this.name = item.getName();
+		this.description = item.getDescription();
+		this.price = item.getPrice();
+		this.stock = item.getStock();
+		this.size = item.getSize();
+		this.tags = item.getTags();
+		this.itemCode = item.getItemCode();
 	}
 
 	@MongoId

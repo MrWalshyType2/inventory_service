@@ -18,7 +18,7 @@ public interface ItemService {
 	
 	Item postNewItem(ItemDTO itemDTO);
 	
-	Item putUpdateItem(ItemDTO itemDTO);
+	Item putUpdateItem(ItemDTO itemDTO, String id);
 	
 	String deleteItemById(String id);
 }
