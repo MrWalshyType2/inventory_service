@@ -2,6 +2,7 @@ package com.inventory.api.data.domain;
 
 import java.util.Set;
 
+import com.inventory.api.data.domain.document.ItemDocument;
 import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
@@ -24,6 +25,17 @@ import lombok.Value;
 @AllArgsConstructor
 @Builder
 public class Item {
+
+	public Item(ItemDocument savedItemDoc) {
+		this.id = savedItemDoc.getId();
+		this.name = savedItemDoc.getName();
+		this.description = savedItemDoc.getDescription();
+		this.price = savedItemDoc.getPrice();
+		this.stock = savedItemDoc.getStock();
+		this.size = savedItemDoc.getSize();
+		this.tags = savedItemDoc.getTags();
+		this.itemCode = savedItemDoc.getItemCode();
+	}
 
 	private String id;
 	

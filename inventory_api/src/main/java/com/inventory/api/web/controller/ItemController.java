@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,8 @@ import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
 import com.inventory.api.data.models.Tag;
+import com.inventory.api.service.ItemService;
+import com.inventory.api.service.ItemServiceImpl;
 import com.inventory.api.web.dto.ItemDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
+	
+	@Autowired
+	private ItemService itemService;
 	
 	@Value("${api.url:localhost}")
 	private String url;
@@ -139,22 +145,22 @@ public class ItemController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Item> postNewItem(@RequestBody @Valid ItemDTO item) {
-		log.info("Received new item: " + item.toString());
+	public ResponseEntity<Item> postNewItem(@RequestBody @Valid ItemDTO itemDTO) {
+		log.info("Received new item: " + itemDTO.toString());
 		
-		Item returnable = Item.builder()
-							  .id("0j84j3809-tju8340u43")
-							  .name(item.getName())
-							  .description(item.getDescription())
-							  .itemCode(item.getItemCode())
-							  .price(item.getPrice())
-							  .size(item.getSize())
-							  .stock(item.getStock())
-							  .tags(item.getTags())
-							  .build();
+//		Item returnable = Item.builder()
+//							  .id("0j84j3809-tju8340u43")
+//							  .name(item.getName())
+//							  .description(item.getDescription())
+//							  .itemCode(item.getItemCode())
+//							  .price(item.getPrice())
+//							  .size(item.getSize())
+//							  .stock(item.getStock())
+//							  .tags(item.getTags())
+//							  .build();
+		Item returnable = itemService.postNewItem(itemDTO);
 		
 		HttpHeaders headers = new HttpHeaders();
-		// mock ID url
 		headers.set("Location", url + port + itemsUrl + returnable.getId());
 		
 		return new ResponseEntity<Item>(returnable, headers, HttpStatus.CREATED);

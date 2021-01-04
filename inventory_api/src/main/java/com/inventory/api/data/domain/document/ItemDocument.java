@@ -10,6 +10,7 @@ import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
 import com.inventory.api.data.models.Tag;
+import com.inventory.api.web.dto.ItemDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDocument {
+
+	public ItemDocument(ItemDTO itemDTO) {
+		this.name = itemDTO.getName();
+		this.description = itemDTO.getDescription();
+		this.price = itemDTO.getPrice();
+		this.stock = itemDTO.getStock();
+		this.size = itemDTO.getSize();
+		this.tags = itemDTO.getTags();
+		this.itemCode = itemDTO.getItemCode();
+	}
 
 	@MongoId
 	private String id;
