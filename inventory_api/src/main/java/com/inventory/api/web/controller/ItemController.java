@@ -25,7 +25,6 @@ import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
 import com.inventory.api.data.models.Tag;
 import com.inventory.api.service.ItemService;
-import com.inventory.api.service.ItemServiceImpl;
 import com.inventory.api.web.dto.ItemDTO;
 
 import lombok.extern.slf4j.Slf4j;
