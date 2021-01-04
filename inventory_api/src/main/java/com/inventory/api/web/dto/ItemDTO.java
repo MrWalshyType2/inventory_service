@@ -9,6 +9,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.springframework.lang.Nullable;
 
+import com.inventory.api.data.domain.Item;
 import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
@@ -18,6 +19,22 @@ import lombok.Value;
 
 @Value
 public class ItemDTO {
+
+	public ItemDTO(Item item) {
+		this(item.getId(), item.getName(), item.getDescription(), item.getPrice(), item.getStock(), item.getSize(), item.getTags(), item.getItemCode());
+	}
+
+	public ItemDTO(String id, ItemName name, String description, Price price, Integer stock, Size size,
+			Set<Tag> tags, String itemCode) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.stock = stock;
+		this.size = size;
+		this.tags = tags;
+		this.itemCode = itemCode;
+	}
 
 	@Null
 	private String id;
