@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.api.data.domain.Item;
+import com.inventory.api.data.domain.document.ItemDocument;
 import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
 import com.inventory.api.data.models.Size;
@@ -53,29 +54,7 @@ public class ItemController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Location", url + port + itemsUrl + "all");
 		
-		Item item1 = Item.builder()
-						.id("0j84j3809-tju8340u43")
-						.name(new ItemName("Freddo Chocolate Bar", "Freddo"))
-						.description("A yummy chocolate bar")
-						.price(new Price("00.50", Double.valueOf("00.50")))
-						.itemCode("0j84j3809-tju8340u43")
-						.stock(666)
-						.tags(Set.of(Tag.FOOD))
-						.size(new Size(0.50d, 0.50d, 0.50d))
-						.build();
-		
-		Item item2 = Item.builder()
-				.id("0j84j3810-tjq7340u45")
-				.name(new ItemName("Reddo Fake Bar", "ReddoFake"))
-				.description("A yummy fake bar")
-				.price(new Price("10.20", Double.valueOf("10.20")))
-				.itemCode("0j84j3810-tjq7340u45")
-				.stock(666)
-				.tags(Set.of(Tag.FOOD))
-				.size(new Size(0.56d, 0.46d, 0.56d))
-				.build();
-		
-		return new ResponseEntity<List<Item>>(List.of(item1, item2),
+		return new ResponseEntity<List<Item>>(itemService.getAllItems(),
 											  headers,
 											  HttpStatus.OK);
 	}
@@ -85,20 +64,9 @@ public class ItemController {
 		log.info("Received item id: " + id);
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Location", url + port + itemsUrl + "0j84j3809-tju8340u43");
+		headers.set("Location", url + port + itemsUrl + id);
 		
-		Item item = Item.builder()
-						.id("0j84j3809-tju8340u43")
-						.name(new ItemName("Freddo Chocolate Bar", "Freddo"))
-						.description("A yummy chocolate bar")
-						.price(new Price("00.50", Double.valueOf("00.50")))
-						.itemCode("0j84j3809-tju8340u43")
-						.stock(666)
-						.tags(Set.of(Tag.FOOD))
-						.size(new Size(0.50d, 0.50d, 0.50d))
-						.build();
-		
-		return new ResponseEntity<Item>(item, headers, HttpStatus.OK);
+		return new ResponseEntity<Item>(itemService.getItemById(id), headers, HttpStatus.OK);
 	}
 
 	@GetMapping
@@ -147,16 +115,6 @@ public class ItemController {
 	public ResponseEntity<Item> postNewItem(@RequestBody @Valid ItemDTO itemDTO) {
 		log.info("Received new item: " + itemDTO.toString());
 		
-//		Item returnable = Item.builder()
-//							  .id("0j84j3809-tju8340u43")
-//							  .name(item.getName())
-//							  .description(item.getDescription())
-//							  .itemCode(item.getItemCode())
-//							  .price(item.getPrice())
-//							  .size(item.getSize())
-//							  .stock(item.getStock())
-//							  .tags(item.getTags())
-//							  .build();
 		Item returnable = itemService.postNewItem(itemDTO);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -165,25 +123,15 @@ public class ItemController {
 		return new ResponseEntity<Item>(returnable, headers, HttpStatus.CREATED);
 	}
 	
-	@PutMapping
-	public ResponseEntity<Item> putUpdateItem(@RequestBody @Valid ItemDTO item) {
-		log.info("Received update to item: " + item.toString());
-		
-		Item returnable = Item.builder()
-							  .id("0j84j3809-tju8340u43")
-							  .name(item.getName())
-							  .description(item.getDescription())
-							  .itemCode(item.getItemCode())
-							  .price(item.getPrice())
-							  .size(item.getSize())
-							  .stock(item.getStock())
-							  .tags(item.getTags())
-							  .build();
-		
+	@PutMapping("/{id}")
+	public ResponseEntity<Item> putUpdateItem(@RequestBody @Valid ItemDTO itemDTO, @PathVariable String id) {
+		log.info("Received update to item: " + itemDTO.toString());
+
+		Item returnable = itemService.putUpdateItem(itemDTO, id);
+
 		HttpHeaders headers = new HttpHeaders();
-		// mock ID url
 		headers.set("Location", url + port + itemsUrl + returnable.getId());
-		
+
 		return new ResponseEntity<Item>(returnable, headers, HttpStatus.OK);
 	}
 	
@@ -191,6 +139,6 @@ public class ItemController {
 	public ResponseEntity<String> deleteItemById(@PathVariable("id") String id) {
 		log.info("Deleting item with ID: " + id);
 		
-		return new ResponseEntity<String>("Item deleted successfully", HttpStatus.OK);
+		return new ResponseEntity<String>(itemService.deleteItemById(id), HttpStatus.OK);
 	}
 }

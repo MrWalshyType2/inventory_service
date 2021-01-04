@@ -80,6 +80,8 @@ public class ItemServiceTest {
 	
 	@Test
 	void getAllItemsTest() {
+		Mockito.when(itemRepository.count()).thenReturn(1L);
+		
 		Mockito.when(itemRepository.findAll())
 			   .thenReturn(items.stream()
 					   			.map(ItemDocument::new)
