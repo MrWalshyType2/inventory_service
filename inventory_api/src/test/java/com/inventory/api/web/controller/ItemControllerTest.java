@@ -103,8 +103,10 @@ public class ItemControllerTest {
 	
 	@Test
 	void getItemByIdTest() throws Exception {
-		// given
 		String id = item1.getId();
+		
+		// given
+		given(itemService.getItemById(id)).willReturn(item1);
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
