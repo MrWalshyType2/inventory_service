@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import com.inventory.api.data.domain.Item;
@@ -44,7 +45,7 @@ public class ItemDocument {
 		this.itemCode = item.getItemCode();
 	}
 
-	@MongoId
+	@MongoId(value = FieldType.OBJECT_ID)
 	private String id;
 	
 	@Field
