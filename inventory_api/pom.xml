@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<snippets.directory>${project.build.directory}/generated-snippets</snippets.directory>
 	</properties>
 
 	<dependencies>
@@ -75,6 +76,11 @@
 						<configuration>
 							<backend>html</backend>
 							<doctype>book</doctype>
+							<attributes>
+								<snippets>${snippets.directory}</snippets>
+							</attributes>
+							<sourceDirectory>src/docs/asciidocs</sourceDirectory>
+							<outputDirectory>target/generated-docs</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>

@@ -1,0 +1,9 @@
+==== Links
+
+GET ALL ITEMS
+
+include::{snippets}/get-all-items-test/curl-request.adoc[]
+
+GET ITEM BY ID
+
+include::{snippets}/get-item-by-id-test/curl-request.adoc[]
