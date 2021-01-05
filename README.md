@@ -28,3 +28,10 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
     }
 }
 ```
+
+## Gateway
+Actuator endpoint exposed for 'gateway', access using:
+
+```
+http://localhost/actuator/gateway/routes
+```
