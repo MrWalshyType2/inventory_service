@@ -13,3 +13,17 @@ include::{snippets}/ItemController/getItemById()/http-response.adoc[]
 
 === Response Fields
 include::{snippets}/ItemController/getItemById()/response-fields.adoc[]
+
+== POST NEW ITEM
+
+=== Curl
+include::{snippets}/ItemController/postNewItem()/curl-request.adoc[]
+
+=== HTTP Request
+include::{snippets}/ItemController/postNewItem()/http-request.adoc[]
+
+=== HTTP Response
+include::{snippets}/ItemController/postNewItem()/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/ItemController/postNewItem()/response-fields.adoc[]

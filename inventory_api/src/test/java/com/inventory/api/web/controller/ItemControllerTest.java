@@ -204,10 +204,60 @@ public class ItemControllerTest {
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
-				post("/api/items")
+				RestDocumentationRequestBuilders
+				.post("/api/items")
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(jsonItemRequest.write(postableItem)
 											.getJson()))
+					.andDo(document("ItemController/postNewItem()",
+							requestFields(
+									fieldWithPath("id").ignored(),
+									
+									fieldWithPath("name").description("Name object of the item").type(ItemName.class),
+									fieldWithPath("name.name").description("Full name of the item").type(String.class),
+									fieldWithPath("name.alias").description("Alias of the item").type(Double.class),
+									
+									fieldWithPath("description").description("Description of the item").type(String.class),
+									
+									fieldWithPath("price").description("Price object of the item").type(Price.class),
+									fieldWithPath("price.strPrice").description("Price of the item to 2 d.p as a String").type(String.class),
+									fieldWithPath("price.price").description("Price of the item as a double").type(Double.class),
+									
+									fieldWithPath("stock").description("Stock of the item").type(Integer.class),
+									
+									fieldWithPath("size").description("Size object of the item").type(Size.class),
+									fieldWithPath("size.width").description("Width of the item in CM").type(Double.class),
+									fieldWithPath("size.height").description("Height of the item in CM").type(Double.class),
+									fieldWithPath("size.length").description("Length of the item in CM").type(Double.class),
+									
+									fieldWithPath("tags").description("Tags for an item").type(Set.class).type(Tag.class),
+									
+									fieldWithPath("itemCode").description("Item code for the item").type(String.class)
+							),
+							responseFields(
+									fieldWithPath("id").description("ID of the item").type(String.class),
+									
+									fieldWithPath("name").description("Name object of the item").type(ItemName.class),
+									fieldWithPath("name.name").description("Full name of the item").type(String.class),
+									fieldWithPath("name.alias").description("Alias of the item").type(Double.class),
+									
+									fieldWithPath("description").description("Description of the item").type(String.class),
+									
+									fieldWithPath("price").description("Price object of the item").type(Price.class),
+									fieldWithPath("price.strPrice").description("Price of the item to 2 d.p as a String").type(String.class),
+									fieldWithPath("price.price").description("Price of the item as a double").type(Double.class),
+									
+									fieldWithPath("stock").description("Stock of the item").type(Integer.class),
+									
+									fieldWithPath("size").description("Size object of the item").type(Size.class),
+									fieldWithPath("size.width").description("Width of the item in CM").type(Double.class),
+									fieldWithPath("size.height").description("Height of the item in CM").type(Double.class),
+									fieldWithPath("size.length").description("Length of the item in CM").type(Double.class),
+									
+									fieldWithPath("tags").description("Tags for an item").type(Set.class).type(Tag.class),
+									
+									fieldWithPath("itemCode").description("Item code for the item").type(String.class)
+							)))
 					.andReturn()
 						.getResponse();
 		
