@@ -27,3 +27,17 @@ include::{snippets}/ItemController/postNewItem()/http-response.adoc[]
 
 === Response Fields
 include::{snippets}/ItemController/postNewItem()/response-fields.adoc[]
+
+== PUT UPDATE ITEM
+
+=== Curl
+include::{snippets}/ItemController/putUpdateItem()/curl-request.adoc[]
+
+=== HTTP Request
+include::{snippets}/ItemController/putUpdateItem()/http-request.adoc[]
+
+=== HTTP Response
+include::{snippets}/ItemController/putUpdateItem()/http-response.adoc[]
+
+=== Response Fields
+include::{snippets}/ItemController/putUpdateItem()/response-fields.adoc[]
