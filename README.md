@@ -10,6 +10,8 @@ The active profile can be set in different ways, an easy way is via a JVM system
 
 ```
 ./mvnw spring-boot:run -Dspring.profiles.active=dev
+
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 A configuration class could also be used to set the active profile programmatically:
