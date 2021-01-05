@@ -360,7 +360,13 @@ public class ItemControllerTest {
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
-				delete("/api/items/" + id))
+				RestDocumentationRequestBuilders
+				.delete("/api/items/{id}", id))
+					.andDo(document("ItemController/deleteItemById()",
+							pathParameters(
+									parameterWithName("id").description("ID of the item to be deleted")
+							)
+					))
 					.andReturn()
 						.getResponse();
 		

@@ -8,6 +8,9 @@ include::{snippets}/ItemController/getAllItems()/curl-request.adoc[]
 === Curl
 include::{snippets}/ItemController/getItemById()/curl-request.adoc[]
 
+=== HTTP Request
+include::{snippets}/ItemController/getItemById()/http-request.adoc[]
+
 === HTTP Response
 include::{snippets}/ItemController/getItemById()/http-response.adoc[]
 
@@ -41,3 +44,14 @@ include::{snippets}/ItemController/putUpdateItem()/http-response.adoc[]
 
 === Response Fields
 include::{snippets}/ItemController/putUpdateItem()/response-fields.adoc[]
+
+== DELETE ITEM BY ID
+
+=== Curl
+include::{snippets}/ItemController/deleteItemById()/curl-request.adoc[]
+
+=== HTTP Request
+include::{snippets}/ItemController/deleteItemById()/http-request.adoc[]
+
+=== HTTP Response
+include::{snippets}/ItemController/deleteItemById()/http-response.adoc[]
