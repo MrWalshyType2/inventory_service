@@ -1,20 +1,33 @@
 package com.inventory.api.web.controller;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.operation.preprocess.ContentModifyingOperationPreprocessor;
+import org.springframework.restdocs.operation.preprocess.OperationPreprocessor;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.core.PrettyPrinter;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inventory.api.data.domain.Item;
 import com.inventory.api.data.models.ItemName;
 import com.inventory.api.data.models.Price;
@@ -26,20 +39,37 @@ import com.inventory.api.web.dto.ItemDTO;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+//Necessary or restdocs won't work
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-@ExtendWith(SpringExtension.class)
+@AutoConfigureRestDocs(uriScheme = "http", uriHost = "localhost", uriPort = 80)
+@ExtendWith({ RestDocumentationExtension.class, SpringExtension.class })
 @AutoConfigureJsonTesters
 @WebMvcTest(ItemController.class)
 public class ItemControllerTest {
 
-	@Autowired
+//	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
@@ -59,7 +89,7 @@ public class ItemControllerTest {
 	private List<Item> items;
 	
 	@BeforeEach
-	void setup() {
+	void setup(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
 		item1 = Item.builder()
 			.id("0j84j3809-tju8340u43")
 			.name(new ItemName("Freddo Chocolate Bar", "Freddo"))
@@ -83,6 +113,12 @@ public class ItemControllerTest {
 			.build();
 		
 		items = List.of(item1, item2);
+		
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+									  .apply(documentationConfiguration(restDocumentation))
+									  .alwaysDo(document("{method-name}",
+											    preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
+									  .build();
 	}
 	
 	@Test
@@ -92,7 +128,9 @@ public class ItemControllerTest {
 		
 		// when
 		MockHttpServletResponse response = mockMvc.perform(
-				get("/api/items/all/"))
+				RestDocumentationRequestBuilders
+				.get("/api/items/all/"))
+					.andDo(document("ItemController/getAllItems()"))
 					.andReturn().getResponse();
 		
 		// then
